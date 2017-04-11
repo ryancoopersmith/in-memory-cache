@@ -53,10 +53,10 @@ let getInput = () => {
         }
 
         if (transactions[0]) {
-          transactions.forEach((transaction) => {
-            transaction.forEach((variable) => {
+          transactions.forEach((transaction, index) => {
+            transaction.forEach((variable, varIndex) => {
               if (variable[0] === setVar) {
-                variables.splice(index, 1);
+                transactions[index].splice(varIndex, 1);
                 found = true;
               }
             });
