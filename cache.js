@@ -1,6 +1,9 @@
 // Check README before running
 let prompt = require('prompt');
 
+let variables = [];
+let transactions = [];
+
 let getInput = () => {
   let properties = [
     {
@@ -15,30 +18,38 @@ let getInput = () => {
     if (err) { return onErr(err); }
 
     input = result.command;
-    let variables = [];
-    let transactions = [];
 
     if (input !== 'END') {
       let setVar = input.slice(4);
 
       if (input.slice(0, 3) === 'SET') {
         let setVarArray = setVar.split('');
+        let counter = 0;
 
-        setVarArray.forEach((char, index) => {
+        setVarArray.every((char, index) => {
           if (parseInt(char)) {
             let variable = setVar.slice(0, index - 1);
             let value = parseInt(setVar.slice(index));
-
             if (transactions[0]) {
               transactions[transactions.length - 1].push([variable, value]);
+              return false;
             } else {
               variables.push([variable, value]);
+              return false;
             }
-          } else {
+            counter ++;
+          }
+
+          if (index - counter === setVarArray.length - 1) {
             console.log('You must set the variable to an integer value');
           }
+          return true
         });
       } else if (input.slice(0, 5) === 'UNSET') {
+        if (!transactions[0] && !variables[0]) {
+          console.log('You must set a variable first');
+        }
+
         if (transactions[0]) {
           transactions.forEach((transaction) => {
             transaction.forEach((variable) => {
@@ -57,8 +68,6 @@ let getInput = () => {
               console.log('Your variable cannot be found');
             }
           });
-        } else {
-          console.log('You must set a variable first');
         }
       } else if (input.slice(0, 5) === 'BEGIN') {
         transactions.push([]);
@@ -81,8 +90,8 @@ let getInput = () => {
       }
 
       // for your viewing pleaseure :)
-      // console.log(transactions);
-      // console.log(variables);
+      console.log(`transactions: ${transactions}`);
+      console.log(`variables: ${variables}`);
 
       getInput();
     } else {
