@@ -20,9 +20,8 @@ let getInput = () => {
     input = result.command;
 
     if (input !== 'END') {
-      let setVar = input.slice(4);
-
       if (input.slice(0, 3) === 'SET') {
+        let setVar = input.slice(4);
         let setVarArray = setVar.split('');
         let counter = 0;
 
@@ -46,6 +45,9 @@ let getInput = () => {
           return true
         });
       } else if (input.slice(0, 5) === 'UNSET') {
+        let setVar = input.slice(6);
+        let found = false;
+
         if (!transactions[0] && !variables[0]) {
           console.log('You must set a variable first');
         }
@@ -53,21 +55,23 @@ let getInput = () => {
         if (transactions[0]) {
           transactions.forEach((transaction) => {
             transaction.forEach((variable) => {
-              if (variable === setVar) {
+              if (variable[0] === setVar) {
                 variables.splice(index, 1);
-              } else {
-                console.log('Your variable cannot be found');
+                found = true;
               }
             });
           });
         } else if (variables[0]) {
           variables.forEach((variable, index) => {
-            if (variable === setVar) {
+            if (variable[0] === setVar) {
               variables.splice(index, 1);
-            } else {
-              console.log('Your variable cannot be found');
+              found = true;
             }
           });
+        }
+
+        if (!found) {
+          console.log('Your variable cannot be found');
         }
       } else if (input.slice(0, 5) === 'BEGIN') {
         transactions.push([]);
@@ -89,7 +93,7 @@ let getInput = () => {
         }
       }
 
-      // for your viewing pleaseure :)
+      // for your viewing pleaseure
       console.log(`transactions: ${transactions}`);
       console.log(`variables: ${variables}`);
 
