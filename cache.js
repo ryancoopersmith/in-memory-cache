@@ -1,4 +1,5 @@
 // Check README before running
+
 let prompt = require('prompt');
 
 let variables = [];
@@ -44,6 +45,60 @@ let getInput = () => {
           }
           return true
         });
+      } else if (input.slice(0, 3) === 'GET') {
+        let setVar = input.slice(4);
+        let found = false;
+
+        if (!transactions[0] && !variables[0]) {
+          console.log('You must set a variable first');
+        }
+
+        if (transactions[0]) {
+          transactions.forEach((transaction, index) => {
+            transaction.forEach((variable, varIndex) => {
+              if (variable[0] === setVar) {
+                console.log(variable[1]);
+                found = true;
+              }
+            });
+          });
+        } else if (variables[0]) {
+          variables.forEach((variable, index) => {
+            if (variable[0] === setVar) {
+              console.log(variable[1]);
+              found = true;
+            }
+          });
+        }
+
+        if (!found) {
+          console.log('NULL');
+        }
+      } else if (input.slice(0, 10) === 'NUMEQUALTO') {
+        let setVar = parseInt(input.slice(11));
+        let counter = 0;
+
+        if (!transactions[0] && !variables[0]) {
+          console.log('You must set a variable first');
+        }
+
+        if (transactions[0]) {
+          transactions.forEach((transaction, index) => {
+            transaction.forEach((variable, varIndex) => {
+              if (variable[1] === setVar) {
+                counter ++;
+              }
+            });
+          });
+        } else if (variables[0]) {
+          variables.forEach((variable, index) => {
+            if (variable[1] === setVar) {
+              counter ++;
+            }
+          });
+        }
+
+        console.log(counter);
       } else if (input.slice(0, 5) === 'UNSET') {
         let setVar = input.slice(6);
         let found = false;
@@ -94,8 +149,9 @@ let getInput = () => {
       }
 
       // for your viewing pleaseure
-      console.log(`transactions: ${transactions}`);
-      console.log(`variables: ${variables}`);
+      
+      // console.log(`transactions: ${transactions}`);
+      // console.log(`variables: ${variables}`);
 
       getInput();
     } else {
