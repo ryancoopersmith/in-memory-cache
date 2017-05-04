@@ -12,5 +12,5 @@ run 'npm install prompt'
 Given more time, I could...
 1) extract the repeated code into methods
 2) use object-oriented design
-3) implement the nested transactions functionality
+3) implement the nested cache.transactions functionality
 4) do much more!
