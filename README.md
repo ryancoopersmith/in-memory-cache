@@ -1,6 +1,7 @@
 # Usage
+Run node app.js
 
-This program requires the node package 'prompt' in order to run (npm install prompt)
+Note: This program requires the node package 'prompt' in order to run (npm install prompt)
 
 ## Help
 
@@ -12,5 +13,5 @@ run 'npm install prompt'
 Given more time, I could...
 1) extract the repeated code into methods
 2) use object-oriented design
-3) implement the nested cache.transactions functionality
+3) implement the nested transactions functionality
 4) do much more!
